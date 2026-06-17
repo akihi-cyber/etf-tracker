@@ -36,7 +36,7 @@ funds:
 
 # AI 分析（可选，填 false 或留空关闭）
 ai_analysis:
-  enabled: false
+  enabled: true
   provider: "deepseek"
   api_key_env: "AI_API_KEY"
   prompt: >
