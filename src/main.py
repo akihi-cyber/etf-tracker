@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+"""
+ETF Tracker — 主入口
+
+每日定时运行：
+  1. 读取配置
+  2. 多源爬取基金/ETF数据
+  3. 交叉验证
+  4. （可选）AI 分析
+  5. 生成日报
+  6. 发送 Outlook 邮件
+"""
+
+import sys
+import os
+from pathlib import Path
+
+# 确保项目根在 sys.path 中（在 GitHub Actions 中也会自动处理）
+_SRC = Path(__file__).resolve().parent
+_PROJ = _SRC.parent
+if str(_PROJ) not in sys.path:
+    sys.path.insert(0, str(_PROJ))
+
+from src.config import Config
+from src.fetchers.eastmoney_fund import EastMoneyFundFetcher
+from src.fetchers.fallback import FallbackFetcher
+from src.validator import Validator
+from src.analyzer import analyze
+from src.reporter import generate_report
+from src.mailer import send_report
+
+
+def main():
+    print("=" * 50)
+    print("📊 ETF Tracker — 开始运行")
+    print("=" * 50)
+
+    # 1. 加载配置
+    cfg = Config()
+    print(f"📋 配置加载完成 | 基金数: {len(cfg.funds)} | 定时: {cfg.schedule_time}")
+
+    # 2. 初始化数据获取器（主 + 备）
+    primary = EastMoneyFundFetcher()
+    fallback = FallbackFetcher()
+    fetchers = [primary, fallback]
+
+    # 3. 交叉验证获取数据
+    print("\n📡 正在获取数据...")
+    validator = Validator(cfg, fetchers)
+    results = validator.run(cfg.funds)
+
+    if not results:
+        print("\n❌ 所有基金数据获取均失败！")
+        sys.exit(1)
+
+    print(f"\n✅ 成功获取 {len(results)}/{len(cfg.funds)} 只基金数据")
+
+    # 4. AI 分析（可选）
+    print("\n🧠 AI 分析...")
+    ai_result = analyze(cfg, results)
+    if ai_result and ai_result.startswith("🤖"):
+        print(f"  {ai_result}（未启用）")
+    elif ai_result:
+        print(f"  ✅ AI 分析完成")
+    else:
+        print("  ⏭ AI 分析未启用")
+
+    # 5. 生成日报
+    print("\n📝 生成日报...")
+    errors = validator.get_report_errors()
+    report = generate_report(cfg, results, ai_result, errors)
+
+    # 保存到 data/ 目录（留档）
+    from datetime import datetime, timezone, timedelta
+    now = datetime.now(timezone(timedelta(hours=8)))
+    report_path = _PROJ / "data" / f"report_{now.strftime('%Y%m%d')}.md"
+    report_path.write_text(report, encoding="utf-8")
+    print(f"  ✅ 日报已保存: {report_path}")
+
+    # 打印预览
+    print("\n" + "─" * 40)
+    print("📰 日报预览（前 500 字）:")
+    print(report[:500])
+    print("..." if len(report) > 500 else "")
+    print("─" * 40)
+
+    # 6. 发送邮件
+    print(f"\n📧 发送邮件至 {cfg.mail_to}...")
+    try:
+        send_report(cfg, report)
+        print("\n🎉 全部完成！")
+    except Exception as e:
+        print(f"\n{e}")
+        # 仍然保留本地日报
+        print(f"📁 日报已保留在本地: {report_path}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

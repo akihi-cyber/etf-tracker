@@ -1,0 +1,62 @@
+# ============================================
+# ETF/基金追踪配置中心
+# 修改此文件后 commit & push 即可生效
+# ============================================
+
+schedule:
+  # 运行时间（北京时间）。建议设 20:00 以后，此时基金净值已基本公布
+  time: "20:00"
+  timezone: "Asia/Shanghai"
+
+# 要追踪的基金/ETF
+funds:
+  - code: "001917"
+    name: "招商量化精选股票A"
+    type: fund
+  - code: "019305"
+    name: "摩根标普500指数(QDII)人民币C"
+    type: fund
+  - code: "006479"
+    name: "广发纳斯达克100ETF联接(QDII)C"
+    type: fund
+  - code: "022460"
+    name: "易方达中证A500ETF联接C"
+    type: fund
+  - code: "011609"
+    name: "易方达上证科创50ETF联接C"
+    type: fund
+
+# --- 想加真正的 ETF（盘中价）？加下面这样 ---
+#  - code: "510300"
+#    name: "华泰柏瑞沪深300ETF"
+#    type: etf        # etf 类型走行情 API，显示收盘价/涨跌幅/成交量
+#  - code: "159949"
+#    name: "华安创业板50ETF"
+#    type: etf
+
+# AI 分析（可选，填 false 或留空关闭）
+ai_analysis:
+  enabled: false
+  provider: "deepseek"
+  api_key_env: "AI_API_KEY"
+  prompt: >
+    简要分析以上基金的今日净值表现：
+    1. 结合近期市场行情解释涨跌原因
+    2. 短期趋势判断（1-2周维度）
+    3. 是否需要调仓
+
+# 交叉验证设置
+validation:
+  min_sources: 2          # 至少几个数据源一致才接受
+  max_retries: 3          # 每个数据源重试次数
+  retry_cooldown: 10      # 重试间隔（秒）
+
+# 邮件设置
+email:
+  smtp_server: "smtp.office365.com"
+  smtp_port: 587
+  use_tls: true
+  from_env: "OUTLOOK_EMAIL"        # 发件邮箱（从 GitHub Secrets 读取）
+  password_env: "OUTLOOK_PASSWORD" # 密码/应用密码（从 GitHub Secrets 读取）
+  to: ""                           # 留空则发给发件人自己
+  subject_prefix: "[基金日报]"

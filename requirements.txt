@@ -1,0 +1,9 @@
+# ETF Tracker 依赖
+# 非常轻量，只有最稳定的基础库
+requests>=2.28
+PyYAML>=6.0
+
+# 以下仅作为兜底抓取使用（页面 HTML 解析）
+# 大多数情况下不会用到，但备着以防 API 失效
+# beautifulsoup4>=4.12
+# lxml>=4.9
