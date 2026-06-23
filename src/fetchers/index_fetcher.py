@@ -24,10 +24,11 @@ HEADERS = {
     ),
 }
 
-# 东方财富行情 API（中国指数 + 黄金）
-EM_QUOTE_URL = "https://push2.eastmoney.com/api/qt/stock/get"
+# 东方财富行情 API
+EM_ULIST_URL = "https://push2.eastmoney.com/api/qt/ulist.np/get"  # 指数列表（正确）
+EM_QUOTE_URL = "https://push2.eastmoney.com/api/qt/stock/get"     # 单只行情（备用）
 
-# 雅虎财经 API（美股指数）
+# 雅虎财经 API（美股指数 + 黄金期货备用）
 YAHOO_CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
 
 
@@ -52,33 +53,44 @@ class IndexFetcher:
     # ── 中国A股指数 ──────────────────────────────────
 
     def _fetch_cn_index(self, code: str, name: str) -> FundDataPoint | None:
-        """通过东方财富行情 API 获取A股指数数据"""
-        # secid 规则：上交所 1.xxx, 深交所 0.xxx, CSI指数尝试0.xxx
-        if code.startswith(("399", "159")):
-            secid = f"0.{code}"
-        else:
-            secid = f"1.{code}"
+        """通过东方财富 ulist API 获取A股指数数据（修正版）
+
+        使用 ulist.np/get 端点 + 正确的字段映射：
+          f2 = 最新价/指数值
+          f3 = 涨跌幅(%)
+          f5 = 成交量(手)
+          f6 = 成交额(元)
+          f12 = 代码
+          f14 = 名称
+        """
+        secids = f"1.{code}"  # A股指数统一使用 1. 前缀
 
         params = {
-            "secid": secid,
-            "fields": "f43,f44,f45,f46,f47,f48,f50,f57,f58,f169,f170,f171,f172",
+            "fltt": "2",
+            "fields": "f2,f3,f4,f5,f6,f12,f14,f15,f16,f17,f18",
+            "secids": secids,
         }
 
         try:
             resp = requests.get(
-                EM_QUOTE_URL,
+                EM_ULIST_URL,
                 params=params,
                 headers=HEADERS,
                 timeout=self.timeout,
             )
             resp.raise_for_status()
-            data = resp.json().get("data", {})
-            if not data or not data.get("f43"):
+            raw = resp.json()
+            diff = raw.get("data", {}).get("diff", [])
+            if not diff:
                 return None
 
-            price = float(data.get("f43", 0))
-            change_pct = float(data.get("f48", 0)) if data.get("f48") else 0.0
-            volume = float(data.get("f169", 0)) if data.get("f169") else 0.0  # 成交量(手)
+            item = diff[0]
+            price = float(item.get("f2", 0))
+            change_pct = float(item.get("f3", 0))
+            turnover = float(item.get("f6", 0))   # 成交额(元)，对指数更有意义
+
+            if price <= 0:
+                return None
 
             now = datetime.now(timezone(timedelta(hours=8)))
             return FundDataPoint(
@@ -88,7 +100,7 @@ class IndexFetcher:
                 net_value=round(price, 2),
                 acc_value=0,
                 daily_change=round(change_pct, 2),
-                volume=round(volume, 0),
+                volume=round(turnover, 0),  # 用成交额替代成交量
                 source="eastmoney-index-hq",
             )
         except Exception as e:
@@ -189,6 +201,26 @@ class IndexFetcher:
     # ── 黄金现货 ──────────────────────────────────
 
     def _fetch_cn_gold(self, code: str, name: str) -> FundDataPoint | None:
+        """获取黄金行情
+
+        策略：
+          1. 东方财富行情 API（AU9999）—— 从中国网络可用
+          2. 雅虎财经黄金期货（GC=F）—— 从 GitHub Actions（海外）可用
+        """
+        # 方法一：东方财富
+        point = self._try_eastmoney_gold(code, name)
+        if point:
+            return point
+
+        # 方法二：雅虎财经黄金期货
+        point = self._try_yahoo_gold(code, name)
+        if point:
+            return point
+
+        print(f"  ⚠ 所有黄金数据源均失败 [{name}]")
+        return None
+
+    def _try_eastmoney_gold(self, code: str, name: str) -> FundDataPoint | None:
         """通过东方财富行情 API 获取黄金（AU9999）行情"""
         secid = f"1.{code}"
 
@@ -226,6 +258,62 @@ class IndexFetcher:
             )
         except Exception as e:
             print(f"  ⚠ 东方财富黄金行情失败 [{name}]: {e}")
+            return None
+
+    def _try_yahoo_gold(self, code: str, name: str) -> FundDataPoint | None:
+        """通过雅虎财经获取黄金期货（GC=F）作为备用"""
+        yahoo_code = "GC=F"
+        try:
+            resp = requests.get(
+                YAHOO_CHART_URL.format(symbol=yahoo_code),
+                params={"interval": "1d", "range": "5d"},
+                headers=HEADERS,
+                timeout=self.timeout,
+            )
+            resp.raise_for_status()
+            resp_json = resp.json()
+            result = resp_json.get("chart", {}).get("result", [])
+            if not result:
+                return None
+
+            meta = result[0].get("meta", {})
+            timestamps = result[0].get("timestamp", [])
+            indicators = result[0].get("indicators", {})
+            quotes = indicators.get("quote", [{}])[0] if indicators.get("quote") else {}
+            closes = quotes.get("close", []) or []
+            volumes = quotes.get("volume", []) or []
+
+            if not closes:
+                return None
+
+            closest_idx = len(closes) - 1
+            while closest_idx >= 0 and closes[closest_idx] is None:
+                closest_idx -= 1
+            if closest_idx < 0:
+                return None
+
+            close_price = float(closes[closest_idx])
+            prev_close = float(meta.get("chartPreviousClose", close_price) or close_price)
+            change_pct = ((close_price - prev_close) / prev_close * 100) if prev_close > 0 else 0.0
+            volume = float(volumes[closest_idx]) if volumes and closest_idx < len(volumes) and volumes[closest_idx] else 0.0
+
+            date_str = ""
+            if timestamps and closest_idx < len(timestamps) and timestamps[closest_idx]:
+                dt = datetime.fromtimestamp(timestamps[closest_idx], tz=timezone.utc)
+                date_str = dt.strftime("%Y-%m-%d")
+
+            return FundDataPoint(
+                code=code,
+                name=f"{name}(GC=F)",
+                date=date_str,
+                net_value=round(close_price, 2),
+                acc_value=0,
+                daily_change=round(change_pct, 2),
+                volume=round(volume, 0),
+                source="yahoo-gold-futures",
+            )
+        except Exception as e:
+            print(f"  ⚠ 雅虎黄金期货失败: {e}")
             return None
 
 

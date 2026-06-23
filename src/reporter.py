@@ -84,15 +84,8 @@ def generate_report(
             change_str = _format_change(point.daily_change)
             source_icon = _FUND_SOURCE_ICONS.get(point.source, "❓")
             # 找对应指数名
-            matched_idx = ""
-            for p in index_results.values():
-                if p:
-                    kw = p.name.replace("上证", "").replace("中证", "")
-                    if kw in name:
-                        matched_idx = kw
-                        break
             lines.append(
-                f"| {name} | `{code}` | {point.net_value:.4f} | {change_str} | {matched_idx} | {source_icon} {point.source} |"
+                f"| {name} | `{code}` | {point.net_value:.4f} | {change_str} | {_match_index_name(name, index_results)} | {source_icon} {point.source} |"
             )
         else:
             lines.append(f"| {name} | `{code}` | — | ⚠️ 无数据 | — | ⛔ |")
@@ -170,16 +163,16 @@ def generate_report(
             if point.volume > 0:
                 lines.append(f"  - 成交量：{point.volume:.0f}")
             # 对应指数提示：按名称匹配
-            idx_point = None
-            for p in index_results.values():
-                if p and (p.name in name or name in p.name):
-                    # 检查是否有实质关联（keyword overlap）
-                    kw = p.name.replace("上证", "").replace("中证", "")
-                    if kw in name:
-                        idx_point = p
+            idx_name = _match_index_name(name, index_results)
+            if idx_name:
+                idx_code = None
+                for cfg_idx in cfg.indices:
+                    if cfg_idx["name"] == idx_name:
+                        idx_code = cfg_idx["code"]
                         break
-            if idx_point:
-                lines.append(f"  - 对应指数：{idx_point.name} {_format_change(idx_point.daily_change)}")
+                if idx_code and idx_code in index_results:
+                    idx_point = index_results[idx_code]
+                    lines.append(f"  - 对应指数：{idx_name} {_format_change(idx_point.daily_change)}")
             lines.append("")
 
     # ── AI 分析 ──────────────────────────────────────
@@ -207,6 +200,22 @@ def generate_report(
     ])
 
     return "\n".join(lines)
+
+
+def _match_index_name(fund_name: str, index_results: dict) -> str:
+    """根据基金名称匹配对应的指数名称（只匹配指数数据，不匹配商品）"""
+    for code, point in index_results.items():
+        if not point:
+            continue
+        if code.startswith("commodity:"):
+            continue  # 跳过商品行情
+        # 跳过 commodity 前缀（兼容旧数据中的其他格式）
+        idx_name = point.name
+        # 去掉前缀进行匹配
+        kw = idx_name.replace("上证", "").replace("中证", "")
+        if kw in fund_name:
+            return idx_name  # 返回完整指数名称
+    return ""
 
 
 def generate_plaintext_report(report_md: str) -> str:

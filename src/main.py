@@ -87,8 +87,11 @@ def main():
     # 保存到 data/ 目录（留档）
     from datetime import datetime, timezone, timedelta
     now = datetime.now(timezone(timedelta(hours=8)))
-    report_path = _PROJ / "data" / f"report_{now.strftime('%Y%m%d')}.md"
+    date_str = now.strftime('%Y%m%d')
+    report_path = _PROJ / "data" / f"report_{date_str}.md"
     report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # 如果当天已有日报，更新时保留时间戳便于比对
     report_path.write_text(report, encoding="utf-8")
     print(f"  ✅ 日报已保存: {report_path}")
 
