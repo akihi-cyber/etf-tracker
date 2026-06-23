@@ -1,5 +1,5 @@
 """
-AI 分析模块 —— 调用 DeepSeek API 对基金净值数据进行简短分析
+AI 分析模块 —— 调用 DeepSeek API 对基金净值、大盘指数和黄金行情进行综合分析
 
 启用条件：
   1. config/settings.yaml 中 ai_analysis.enabled = true
@@ -16,16 +16,20 @@ from .fetchers.base import FundDataPoint
 DEEPSEEK_URL = "https://api.deepseek.com/chat/completions"
 
 
-def analyze(cfg: Config, results: dict[str, FundDataPoint]) -> str | None:
-    """调用 DeepSeek 对当日净值数据进行分析"""
+def analyze(
+    cfg: Config,
+    results: dict[str, FundDataPoint],
+    index_results: dict[str, FundDataPoint] | None = None,
+) -> str | None:
+    """调用 DeepSeek 对当日数据进行综合分析"""
     if not cfg.ai_enabled:
         return None
 
     if not cfg.ai_api_key:
         return "AI 分析已启用但未配置 API Key（请设置 GitHub Secret: AI_API_KEY）"
 
-    # 构造 prompt
-    prompt = _build_prompt(cfg, results)
+    # 构造 prompt（含基金 + 指数 + 黄金）
+    prompt = _build_prompt(cfg, results, index_results or {})
 
     # 调用 DeepSeek API
     headers = {
@@ -35,11 +39,11 @@ def analyze(cfg: Config, results: dict[str, FundDataPoint]) -> str | None:
     payload = {
         "model": "deepseek-chat",
         "messages": [
-            {"role": "system", "content": "你是一位专业的基金投资分析师，语言简洁、客观。"},
+            {"role": "system", "content": "你是一位专业的基金投资分析师，语言简洁、客观。回答问题使用中文。"},
             {"role": "user", "content": prompt},
         ],
         "temperature": 0.7,
-        "max_tokens": 800,
+        "max_tokens": 1000,
     }
 
     try:
@@ -69,18 +73,27 @@ def analyze(cfg: Config, results: dict[str, FundDataPoint]) -> str | None:
         return f"AI 分析异常: {e}"
 
 
-def _build_prompt(cfg: Config, results: dict[str, FundDataPoint]) -> str:
-    """构造发给 DeepSeek 的分析 prompt"""
+def _build_prompt(
+    cfg: Config,
+    results: dict[str, FundDataPoint],
+    index_results: dict[str, FundDataPoint],
+) -> str:
+    """构造发给 DeepSeek 的综合分析 prompt"""
     now = datetime.now(timezone(timedelta(hours=8)))
     today = now.strftime("%Y-%m-%d")
 
     lines = [
-        f"今天是 {today}，以下是持有的基金今日净值数据：",
+        f"今天是 {today}，以下是今日完整的市场数据：",
+        "",
+    ]
+
+    # --- 基金净值 ---
+    lines.extend([
+        "### 基金净值",
         "",
         "| 基金名称 | 代码 | 单位净值 | 日涨跌幅 |",
         "|---------|------|---------|:-------:|",
-    ]
-
+    ])
     for fund in cfg.funds:
         code = fund["code"]
         name = fund["name"]
@@ -94,15 +107,61 @@ def _build_prompt(cfg: Config, results: dict[str, FundDataPoint]) -> str:
 
     lines.append("")
 
+    # --- 大盘指数 ---
+    if cfg.indices:
+        lines.extend([
+            "### 大盘指数",
+            "",
+            "| 指数 | 收盘价 | 涨跌幅 | 成交量 |",
+            "|------|:-----:|:-----:|:-----:|",
+        ])
+        for idx_cfg in cfg.indices:
+            code = idx_cfg["code"]
+            name = idx_cfg["name"]
+            point = index_results.get(code)
+            if point:
+                lines.append(
+                    f"| {name} | {point.net_value:.2f} | {point.daily_change:+.2f}% | {point.volume:.0f} |"
+                )
+            else:
+                lines.append(f"| {name} | — | 无数据 | — |")
+
+    lines.append("")
+
+    # --- 黄金 ---
+    commodity_prefix = "commodity:"
+    gold_items = {k: v for k, v in index_results.items() if k.startswith(commodity_prefix)}
+    if gold_items:
+        lines.extend([
+            "### 黄金行情",
+            "",
+            "| 品种 | 价格 | 涨跌幅 | 成交量 |",
+            "|------|:---:|:-----:|:-----:|",
+        ])
+        for cfg_item in cfg.commodities:
+            full_code = f"{commodity_prefix}{cfg_item['code']}"
+            point = gold_items.get(full_code)
+            if point:
+                lines.append(
+                    f"| {point.name} | {point.net_value:.2f} | {point.daily_change:+.2f}% | {point.volume:.0f} |"
+                )
+            else:
+                lines.append(f"| {cfg_item['name']} | — | 无数据 | — |")
+
+    lines.append("")
+    lines.append("---")
+    lines.append("")
+
     # 用户自定义 prompt
     if cfg.ai_prompt:
         lines.append(cfg.ai_prompt)
     else:
-        lines.append(
-            "请根据以上数据给出简短分析：\n"
-            "1. 今日整体表现如何？\n"
-            "2. 值得关注的涨跌\n"
-            "3. 短期趋势判断"
-        )
+        lines.extend([
+            "请根据以上数据给出综合分析：",
+            "1. 今日基金净值整体表现如何？涨跌原因可能是什么？",
+            "2. 对应宽基指数（科创50、中证A500、标普500、纳斯达克100）今日表现如何？成交量有无异常？",
+            "3. 黄金行情今日如何？对避险情绪有何提示？",
+            "4. 短期趋势判断（1-2周维度）和调仓建议",
+        ])
 
     return "\n".join(lines)

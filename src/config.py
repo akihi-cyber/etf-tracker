@@ -25,6 +25,10 @@ class Config:
         if not self.funds:
             raise ValueError("⚠️ settings.yaml 中 funds 列表为空，请至少添加一支基金")
 
+        # --- 大盘指数 ---
+        self.indices: list[dict] = raw.get("indices", [])
+        self.commodities: list[dict] = raw.get("commodities", [])
+
         # --- AI 分析 ---
         ai = raw.get("ai_analysis", {}) or {}
         self.ai_enabled: bool = ai.get("enabled", False)

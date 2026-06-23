@@ -6,9 +6,10 @@ ETF Tracker — 主入口
   1. 读取配置
   2. 多源爬取基金/ETF数据
   3. 交叉验证
-  4. （可选）AI 分析
-  5. 生成日报
-  6. 发送 Outlook 邮件
+  4. 爬取大盘指数 + 商品行情（新增）
+  5. （可选）AI 分析
+  6. 生成日报（含指数和黄金板块）
+  7. 发送 Outlook 邮件
 """
 
 import sys
@@ -24,6 +25,7 @@ if str(_PROJ) not in sys.path:
 from src.config import Config
 from src.fetchers.eastmoney_fund import EastMoneyFundFetcher
 from src.fetchers.fallback import FallbackFetcher
+from src.fetchers.index_fetcher import fetch_all_indices
 from src.validator import Validator
 from src.analyzer import analyze
 from src.reporter import generate_report
@@ -37,27 +39,39 @@ def main():
 
     # 1. 加载配置
     cfg = Config()
-    print(f"📋 配置加载完成 | 基金数: {len(cfg.funds)} | 定时: {cfg.schedule_time}")
+    track_count = len(cfg.funds) + len(cfg.indices) + len(cfg.commodities)
+    print(f"📋 配置加载完成 | 基金: {len(cfg.funds)} | 指数: {len(cfg.indices)} | 商品: {len(cfg.commodities)}")
 
-    # 2. 初始化数据获取器（主 + 备）
+    # 2. 初始化基金数据获取器（主 + 备）
     primary = EastMoneyFundFetcher()
     fallback = FallbackFetcher()
     fetchers = [primary, fallback]
 
-    # 3. 交叉验证获取数据
-    print("\n📡 正在获取数据...")
+    # 3. 交叉验证获取基金数据
+    print("\n📡 正在获取基金净值数据...")
     validator = Validator(cfg, fetchers)
     results = validator.run(cfg.funds)
 
     if not results:
-        print("\n❌ 所有基金数据获取均失败！")
-        sys.exit(1)
+        print("\n⚠️ 所有基金数据获取均失败，继续获取指数和黄金...")
+    else:
+        print(f"\n✅ 成功获取 {len(results)}/{len(cfg.funds)} 只基金数据")
 
-    print(f"\n✅ 成功获取 {len(results)}/{len(cfg.funds)} 只基金数据")
+    # 4. 获取大盘指数 + 商品行情（新增）
+    index_results = {}
+    if cfg.indices or cfg.commodities:
+        print("\n📊 正在获取大盘指数 & 黄金行情...")
+        index_results = fetch_all_indices(cfg.indices, cfg.commodities)
+        if index_results:
+            print(f"\n✅ 成功获取 {len(index_results)} 项指数/商品数据")
+        else:
+            print("\n⚠️ 指数/商品数据全部获取失败")
+    else:
+        print("\n⏭ 未配置指数/商品跟踪（跳过）")
 
-    # 4. AI 分析（可选）
+    # 5. AI 分析（可选）
     print("\n🧠 AI 分析...")
-    ai_result = analyze(cfg, results)
+    ai_result = analyze(cfg, results, index_results)
     if ai_result and ai_result.startswith("🤖"):
         print(f"  {ai_result}（未启用）")
     elif ai_result:
@@ -65,15 +79,16 @@ def main():
     else:
         print("  ⏭ AI 分析未启用")
 
-    # 5. 生成日报
+    # 6. 生成日报
     print("\n📝 生成日报...")
     errors = validator.get_report_errors()
-    report = generate_report(cfg, results, ai_result, errors)
+    report = generate_report(cfg, results, index_results, ai_result, errors)
 
     # 保存到 data/ 目录（留档）
     from datetime import datetime, timezone, timedelta
     now = datetime.now(timezone(timedelta(hours=8)))
     report_path = _PROJ / "data" / f"report_{now.strftime('%Y%m%d')}.md"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(report, encoding="utf-8")
     print(f"  ✅ 日报已保存: {report_path}")
 
@@ -84,7 +99,7 @@ def main():
     print("..." if len(report) > 500 else "")
     print("─" * 40)
 
-    # 6. 发送邮件
+    # 7. 发送邮件
     print(f"\n📧 发送邮件至 {cfg.mail_to}...")
     try:
         send_report(cfg, report)
