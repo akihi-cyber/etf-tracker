@@ -122,8 +122,8 @@ indices:
 
 # 商品行情
 commodities:
-  - code: "AU9999"
-    name: "黄金现货(Au99.99)"
+  - code: "XAU"
+    name: "国际金价(人民币/克)"
     market: "cn_gold"
 
 # AI 分析

@@ -340,64 +340,91 @@ class IndexFetcher:
 
     # ── 黄金现货 ──────────────────────────────────
 
+    # ── 黄金行情 ──────────────────────────────────
+
+    GOLD_API_URL = "https://api.gold-api.com/price/XAU"
+    SINA_FX_URL = "https://hq.sinajs.cn/list=fx_susdcny"
+    _OZ_TO_GRAM = 31.1035  # 1 金衡盎司 = 31.1035 克
+
     def _fetch_cn_gold(self, code: str, name: str) -> FundDataPoint | None:
-        """获取黄金行情
+        """
+        获取黄金行情（人民币/克）
 
         策略：
-          1. 东方财富行情 API（AU9999）—— 从中国网络可用
-          2. 雅虎财经黄金期货（GC=F）—— 从 GitHub Actions（海外）可用
+          1. gold-api.com 获取国际金价 XAU/USD（免 API Key）
+          2. 新浪财经获取 USD/CNY 在岸汇率
+          3. 换算：人民币每克价格 = XAU/USD × USD/CNY ÷ 31.1035
         """
-        # 方法一：东方财富
-        point = self._try_eastmoney_gold(code, name)
-        if point:
-            return point
-
-        # 方法二：雅虎财经黄金期货
-        point = self._try_yahoo_gold(code, name)
+        point = self._fetch_gold_via_api(code, name)
         if point:
             return point
 
         print(f"  ⚠ 所有黄金数据源均失败 [{name}]")
         return None
 
-    def _try_eastmoney_gold(self, code: str, name: str) -> FundDataPoint | None:
-        """通过东方财富行情 API 获取黄金（AU9999）行情"""
-        secid = f"1.{code}"
-
-        params = {
-            "secid": secid,
-            "fields": "f43,f44,f45,f46,f47,f48,f50,f57,f58,f169,f170,f171,f172",
-        }
-
+    def _fetch_gold_via_api(self, code: str, name: str) -> FundDataPoint | None:
+        """通过 gold-api.com + 新浪汇率获取黄金人民币价格"""
         try:
-            resp = requests.get(
-                EM_QUOTE_URL,
-                params=params,
-                headers=HEADERS,
+            # 1. 获取 XAU/USD 国际金价
+            resp_gold = requests.get(
+                self.GOLD_API_URL,
+                headers={"User-Agent": "Mozilla/5.0"},
                 timeout=self.timeout,
             )
-            resp.raise_for_status()
-            data = resp.json().get("data", {})
-            if not data or not data.get("f43"):
-                return None
+            resp_gold.raise_for_status()
+            gold_data = resp_gold.json()
+            xau_usd = float(gold_data.get("price", 0))
+            if xau_usd <= 0:
+                raise ValueError(f"Invalid gold price: {xau_usd}")
 
-            price = float(data.get("f43", 0))
-            change_pct = float(data.get("f48", 0)) if data.get("f48") else 0.0
-            volume = float(data.get("f169", 0)) if data.get("f169") else 0.0
+            # 2. 获取 USD/CNY 汇率（新浪财经）
+            resp_fx = requests.get(
+                self.SINA_FX_URL,
+                headers={"Referer": "https://finance.sina.com.cn"},
+                timeout=self.timeout,
+            )
+            resp_fx.raise_for_status()
+            text = resp_fx.text
+            # 解析新浪格式: var hq_str_fx_susdcny="16:58:04,6.7995,..."
+            import re
+            match = re.search(r'"([^"]+)"', text)
+            if not match:
+                raise ValueError(f"Cannot parse Sina FX: {text[:100]}")
+            fields = match.group(1).split(",")
+            if len(fields) < 2:
+                raise ValueError(f"Unexpected FX format: {fields}")
+            usd_cny = float(fields[1])
+            if usd_cny <= 0:
+                raise ValueError(f"Invalid USD/CNY: {usd_cny}")
+
+            # 3. 换算为人民币/克
+            price_cny_gram = round(xau_usd * usd_cny / self._OZ_TO_GRAM, 2)
+
+            # 4. 从历史数据库获取前一日价格计算涨跌幅
+            change_pct = 0.0
+            try:
+                from ..storage import get_latest_price_for_code
+                prev_close = get_latest_price_for_code(f"commodity:{code}")
+                if prev_close and prev_close > 0:
+                    change_pct = round((price_cny_gram - prev_close) / prev_close * 100, 2)
+            except Exception:
+                pass
 
             now = datetime.now(timezone(timedelta(hours=8)))
+            print(f"    🥇 XAU/USD=${xau_usd:.2f} USD/CNY={usd_cny:.4f} → ¥{price_cny_gram:.2f}/克")
+
             return FundDataPoint(
                 code=code,
-                name=name,
-                date=now.strftime("%Y-%m-%d"),
-                net_value=round(price, 2),
+                name=f"国际金价(¥/克)",
+                date=gold_data.get("updatedAt", now.strftime("%Y-%m-%d"))[:10],
+                net_value=price_cny_gram,
                 acc_value=0,
-                daily_change=round(change_pct, 2),
-                volume=round(volume, 0),
-                source="eastmoney-gold-hq",
+                daily_change=change_pct,
+                volume=0,
+                source="gold-api+sina",
             )
         except Exception as e:
-            print(f"  ⚠ 东方财富黄金行情失败 [{name}]: {e}")
+            print(f"  ⚠ 黄金API获取失败: {e}")
             return None
 
     def _try_yahoo_gold(self, code: str, name: str) -> FundDataPoint | None:

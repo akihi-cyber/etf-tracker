@@ -142,3 +142,15 @@ def get_latest_date() -> Optional[str]:
     row = conn.execute("SELECT MAX(date) FROM nav_history").fetchone()
     conn.close()
     return row[0] if row else None
+
+
+def get_latest_price_for_code(code: str) -> Optional[float]:
+    """获取某个 code 的最新净值（用于计算涨跌幅基准）"""
+    _ensure_db()
+    conn = sqlite3.connect(str(_DB_PATH))
+    row = conn.execute(
+        "SELECT net_value FROM nav_history WHERE code = ? ORDER BY date DESC LIMIT 1",
+        (code,),
+    ).fetchone()
+    conn.close()
+    return row[0] if row else None
