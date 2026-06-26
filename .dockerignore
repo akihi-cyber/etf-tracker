@@ -1,0 +1,38 @@
+# Docker — 打包排除项
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# 本地开发/测试
+test_portfolio.py
+_test_*.py
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 环境变量（永远不要打包进镜像）
+.env
+.env.local
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 数据目录会在运行时挂载 volume
+# 但为了防止误打包，也忽略
+data/portfolio.db
+data/report_*.md
+
+# Git
+.git/
+.gitignore
+.github/
+
+# 文档（本地）
+README.md

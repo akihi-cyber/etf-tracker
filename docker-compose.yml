@@ -1,0 +1,32 @@
+# ============================================
+# ETF Tracker — docker-compose
+# 本地运行 / 服务器部署
+#
+# 用法：
+#   首次运行： docker compose up --build
+#   日常运行： docker compose run --rm tracker
+#   定时运行（宿主机 cron）： 0 17 * * 1-5 cd /path && docker compose run --rm tracker
+# ============================================
+
+services:
+  tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: etf-tracker
+    restart: "no"  # 手动/定时触发，不自启
+
+    # 配置文件（可编辑 settings.yaml 后 re-up）
+    volumes:
+      - ./config:/app/config:ro         # 配置只读
+      - etf-tracker-data:/app/data       # SQLite + 日报持久化
+
+    # 敏感信息通过 .env 文件传入（创建 .env 参照 .env.example）
+    env_file:
+      - .env
+
+    # 默认运行主脚本，也支持 override：
+    #   docker compose run --rm tracker python src/main.py
+
+volumes:
+  etf-tracker-data:
