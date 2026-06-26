@@ -28,5 +28,21 @@ services:
     # 默认运行主脚本，也支持 override：
     #   docker compose run --rm tracker python src/main.py
 
+  # ── Web 前端仪表盘（FastAPI + Chart.js）───
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: etf-tracker-web
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config:/app/config:ro
+      - etf-tracker-data:/app/data
+    env_file:
+      - .env
+    command: ["python", "src/web.py"]
+
 volumes:
   etf-tracker-data:

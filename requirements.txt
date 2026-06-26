@@ -7,3 +7,7 @@ PyYAML>=6.0
 # 大多数情况下不会用到，但备着以防 API 失效
 # beautifulsoup4>=4.12
 # lxml>=4.9
+
+# Web 前端（可选，运行仪表盘时需要）
+# pip install fastapi uvicorn pydantic
+# 然后: python src/web.py
