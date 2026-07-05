@@ -28,7 +28,7 @@ services:
     # 默认运行主脚本，也支持 override：
     #   docker compose run --rm tracker python src/main.py
 
-  # ── Web 前端仪表盘（FastAPI + Chart.js）───
+  # ── Web 前端仪表盘（FastAPI + Chart.js 净值曲线）───
   web:
     build:
       context: .

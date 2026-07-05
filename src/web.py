@@ -2,8 +2,10 @@
 ETF Tracker — Web 前端（FastAPI 后端）
 
 缓存策略：
-  GET /api/*  → 从 data/cache_portfolio.json 读取（秒级响应）
+  GET /api/*  → 从 data/cache_nav.json 读取（秒级响应）
   POST /api/refresh → 触发全量数据抓取并更新缓存
+
+仅保留净值曲线与基金列表，已移除持仓/定投相关功能。
 
 运行：uvicorn src.web:app --reload --port 8080
 """
@@ -16,7 +18,6 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 # 项目根路径
 _PROJ = Path(__file__).resolve().parent.parent
@@ -27,7 +28,7 @@ from src.config import Config
 from src.storage import get_history
 from src.risk import _get_weights, _portfolio_net_value_series
 
-CACHE_PATH = _PROJ / "data" / "cache_portfolio.json"
+CACHE_PATH = _PROJ / "data" / "cache_nav.json"
 cfg = Config()
 
 app = FastAPI(title="ETF Tracker", version="1.0.0")
@@ -47,9 +48,9 @@ async def startup():
 # ── 工具函数 ────────────────────────────────────────────────
 
 async def _background_refresh():
-    """后台刷新缓存（首次启动或缓存过期）"""
+    """后台刷新缓存"""
     try:
-        data = await _build_portfolio_data()
+        data = await _build_nav_data()
         _save_cache(data)
         print(f"[web] 后台刷新完成: {data['date']} ({data['fetched_count']}/{data['funds_count']})")
     except Exception as e:
@@ -70,11 +71,10 @@ def _save_cache(data: dict):
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
     CACHE_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
-async def _build_portfolio_data():
-    """全量抓取 + 组合计算（耗时 30-60s）"""
+async def _build_nav_data():
+    """全量抓取（耗时 30-60s）"""
     from src.fetchers.eastmoney_fund import EastMoneyFundFetcher
     from src.fetchers.index_fetcher import fetch_all_indices
-    from src.portfolio import sync_from_config, sync_plans_from_config, compute_portfolio, load_plans
 
     fetcher = EastMoneyFundFetcher(timeout=15)
     print("[web] 获取基金数据...")
@@ -94,49 +94,11 @@ async def _build_portfolio_data():
         print("[web] 获取指数&黄金...")
         index_results = fetch_all_indices(cfg.indices, cfg.commodities)
 
-    sync_from_config(cfg)
-    sync_plans_from_config(cfg)
-    portfolio = compute_portfolio(cfg, results)
-
     now = datetime.now(timezone(timedelta(hours=8)))
     date_str = now.strftime("%Y-%m-%d %H:%M")
 
-    holdings_data = []
-    for h in portfolio.holdings:
-        holdings_data.append({
-            "id": h.id,
-            "fund_code": h.fund_code,
-            "fund_name": h.fund_name or h.fund_code,
-            "shares": round(h.shares, 4),
-            "cost_basis": round(h.cost_basis, 2),
-            "current_nav": round(h.current_nav, 4),
-            "current_value": round(h.current_value, 2),
-            "pnl": round(h.pnl, 2),
-            "pnl_pct": round(h.pnl_pct, 2),
-            "note": h.note,
-        })
-
-    plans = load_plans()
-    plans_data = [
-        {
-            "id": p.id,
-            "fund_code": p.fund_code,
-            "fund_name": p.fund_name or p.fund_code,
-            "amount": p.amount,
-            "period": p.period,
-            "note": p.note,
-        }
-        for p in plans
-    ]
-
     data = {
         "date": date_str,
-        "total_cost": round(portfolio.total_cost, 2),
-        "total_value": round(portfolio.total_value, 2),
-        "total_pnl": round(portfolio.total_pnl, 2),
-        "total_pnl_pct": round(portfolio.total_pnl_pct, 2),
-        "holdings": holdings_data,
-        "plans": plans_data,
         "funds_count": len(cfg.funds),
         "fetched_count": len(results),
     }
@@ -156,9 +118,9 @@ async def index():
 
 # ── API ─────────────────────────────────────────────────────
 
-@app.get("/api/portfolio")
-async def get_portfolio():
-    """返回缓存的组合数据（立即响应）"""
+@app.get("/api/status")
+async def get_status():
+    """返回缓存状态"""
     cached = _load_cache()
     if cached:
         return cached
@@ -168,23 +130,22 @@ async def get_portfolio():
 @app.post("/api/refresh")
 async def refresh():
     """手动触发全量数据刷新"""
-    data = await _build_portfolio_data()
+    data = await _build_nav_data()
     _save_cache(data)
     return JSONResponse({"status": "ok", "date": data["date"],
                          "fetched": f"{data['fetched_count']}/{data['funds_count']}"})
 
 
-@app.get("/api/history/portfolio")
-async def get_portfolio_history(days: int = 60):
-    """组合加权净值曲线"""
+@app.get("/api/history/nav")
+async def get_nav_history(days: int = 60):
+    """组合加权净值曲线（等权重）"""
     codes = [f["code"] for f in cfg.funds]
     history = get_history(codes, days=days)
     nav_series = _portfolio_net_value_series(cfg, history)
 
     if not nav_series:
-        return {"dates": [], "values": []}
+        return {"dates": [], "values": [], "codes": codes}
 
-    weights = _get_weights(cfg)
     data_map = {}
     for code in codes:
         records = history.get(code, [])
@@ -204,101 +165,10 @@ async def get_portfolio_history(days: int = 60):
     }
 
 
-# ── API: 定投计划 ───────────────────────────────────────
-
-@app.get("/api/plans")
-async def list_plans():
-    from src.portfolio import load_plans
-    plans = load_plans()
-    return [
-        {
-            "id": p.id,
-            "fund_code": p.fund_code,
-            "fund_name": p.fund_name or p.fund_code,
-            "amount": p.amount,
-            "period": p.period,
-            "note": p.note,
-        }
-        for p in plans
-    ]
-
-
-class PlanInput(BaseModel):
-    fund_code: str
-    fund_name: str = ""
-    amount: float = 0.0
-    period: str = "daily"
-    note: str = ""
-
-
-@app.post("/api/plans")
-async def create_plan(p: PlanInput):
-    from src.portfolio import Plan as PlanModel, save_plan
-    plan = PlanModel(
-        fund_code=p.fund_code,
-        fund_name=p.fund_name,
-        amount=p.amount,
-        period=p.period if p.period else "daily",
-        note=p.note,
-    )
-    save_plan(plan)
-    return {"status": "ok", "id": plan.id}
-
-
-@app.delete("/api/plans/{plan_id}")
-async def remove_plan(plan_id: int):
-    from src.portfolio import delete_plan
-    delete_plan(plan_id)
-    return {"status": "ok"}
-
-
-# ── API: 日报列表 ───────────────────────────────────────
-
-_REPORT_DIR = _PROJ / "data"
-
-
-@app.get("/api/reports")
-async def list_reports():
-    """列出所有日报"""
-    if not _REPORT_DIR.exists():
-        return []
-    files = sorted(_REPORT_DIR.glob("report_*.md"), reverse=True)
-    result = []
-    for f in files[:30]:  # 最多 30 条
-        try:
-            lines = f.read_text(encoding="utf-8").split("\n")
-            # 提取标题行
-            title = ""
-            for line in lines:
-                line = line.strip()
-                if line.startswith("## "):
-                    title = line.replace("## ", "").strip()
-                    break
-            result.append({
-                "filename": f.name,
-                "date": f.stem.replace("report_", ""),
-                "title": title or f.name,
-                "size": f.stat().st_size,
-            })
-        except Exception:
-            pass
-    return result
-
-
-@app.get("/api/reports/{filename}")
-async def get_report(filename: str):
-    """获取单篇日报内容"""
-    path = _REPORT_DIR / filename
-    if not path.exists() or not path.name.startswith("report_") or not path.name.endswith(".md"):
-        raise HTTPException(status_code=404, detail="Report not found")
-    return {"content": path.read_text(encoding="utf-8")}
-
-
 @app.get("/api/funds")
 async def list_funds():
     """配置中的基金列表"""
-    return [{"code": f["code"], "name": f["name"],
-             "weight": f.get("weight", 0)} for f in cfg.funds]
+    return [{"code": f["code"], "name": f["name"]} for f in cfg.funds]
 
 
 # ── 运行 ────────────────────────────────────────────────────

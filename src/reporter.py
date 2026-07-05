@@ -65,7 +65,6 @@ def generate_report(
     ai_analysis: str | None,
     errors: str,
     risk_report: dict | None = None,
-    portfolio: 'Portfolio | None' = None,
 ) -> str:
     """
     生成 Markdown 格式日报
@@ -76,7 +75,7 @@ def generate_report(
         index_results: code→FundDataPoint 映射（指数+商品）
         ai_analysis: AI 分析文本
         errors: 错误汇总
-        portfolio: 组合明细（含持仓盈亏）
+        risk_report: 风险分析报告
     """
     now = get_beijing_time()
     today = now.strftime("%Y-%m-%d")
@@ -191,39 +190,6 @@ def generate_report(
                     idx_point = index_results[idx_code]
                     lines.append(f"  - 对应指数：{idx_name} {_format_change(idx_point.daily_change)}")
             lines.append("")
-
-    # ── 组合持仓与盈亏明细 ────────────────────────────
-    if portfolio and portfolio.holdings:
-        lines.extend([
-            "---",
-            "",
-            "### 📦 组合持仓与盈亏",
-            "",
-            "| 基金 | 持有份数 | 投入金额 | 当前市值 | 盈亏 | 盈亏比 |",
-            "|------|:-------:|:--------:|:--------:|:----:|:-----:|",
-        ])
-        for h in portfolio.holdings:
-            name = h.fund_name or h.fund_code
-            shares_str = f"{h.shares:.4f}" if h.shares > 0 else "—"
-            cost_str = f"¥{h.cost_basis:.2f}" if h.cost_basis > 0 else "—"
-            value_str = f"¥{h.current_value:.2f}" if h.current_value > 0 else "—"
-            pnl_icon = "🟢" if h.pnl >= 0 else "🔴"
-            pnl_str = f"{pnl_icon} ¥{h.pnl:+.2f}" if h.pnl != 0 else "—"
-            pnl_pct_str = f"{h.pnl_pct:+.2f}%" if h.pnl_pct != 0 else "—"
-            lines.append(
-                f"| {name} | {shares_str} | {cost_str} | {value_str} | {pnl_str} | {pnl_pct_str} |"
-            )
-
-        # 汇总行
-        pnl_total_icon = "🟢" if portfolio.total_pnl >= 0 else "🔴"
-        lines.extend([
-            "| **合计** | **—** | "
-            f"**¥{portfolio.total_cost:.2f}** | "
-            f"**¥{portfolio.total_value:.2f}** | "
-            f"**{pnl_total_icon} ¥{portfolio.total_pnl:+.2f}** | "
-            f"**{portfolio.total_pnl_pct:+.2f}%** |",
-            "",
-        ])
 
     # ── 组合风险分析 ─────────────────────────────────
     if risk_report:

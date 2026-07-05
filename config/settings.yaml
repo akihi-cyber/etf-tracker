@@ -8,100 +8,57 @@ schedule:
   timezone: "Asia/Shanghai"
 
 # ============================================
-# 持仓基金/ETF（完整仓位）
-# weight = 投入金额（元），代码自动归一化为权重
-# shares = 持有份数（可选），填了可从 NAV 换算市值
-#   例：weight: 1000, shares: 888.88
-#   则成本 = 1000 元，份数 = 888.88 份
-# 未来前端可图形化编辑：修改份数 or 金额都能互算
+# 跟踪基金/ETF（仅用于净值追踪与日报分析）
 # ============================================
 funds:
   - code: "009478"
     name: "中银上海金ETF联接C"
     type: fund
-    weight: 2558.99
   - code: "001123"
     name: "鹏华弘利混合C"
     type: fund
-    weight: 1330.11
   - code: "013880"
     name: "广发招享混合C"
     type: fund
-    weight: 1081.94
   - code: "001917"
     name: "招商量化精选股票A"
     type: fund
-    weight: 718.18
   - code: "026711"
     name: "富国核心动力混合C"
     type: fund
-    weight: 651.33
   - code: "000386"
     name: "景顺长城景颐双利债券C"
     type: fund
-    weight: 472.73
   - code: "019305"
     name: "摩根标普500指数(QDII)人民币C"
     type: fund
-    weight: 416.62
   - code: "013286"
     name: "富国上证指数ETF联接C"
     type: fund
-    weight: 349.98
   - code: "006479"
     name: "广发纳斯达克100ETF联接(QDII)C"
     type: fund
-    weight: 243.28
   - code: "013403"
     name: "华夏恒生科技ETF联接(QDII)C"
     type: fund
-    weight: 149.05
   - code: "019671"
     name: "广发港股创新药ETF联接(QDII)C"
     type: fund
-    weight: 103.15
   - code: "007028"
     name: "易方达中证500ETF联接A"
     type: fund
-    weight: 82.95
   - code: "022460"
     name: "易方达中证A500ETF联接C"
     type: fund
-    weight: 57.13
   - code: "011609"
     name: "易方达上证科创50ETF联接C"
     type: fund
-    weight: 54.92
   - code: "000217"
     name: "华安黄金ETF联接C"
     type: fund
-    weight: 15.37
   - code: "007339"
     name: "易方达沪深300ETF联接C"
     type: fund
-    weight: 10.06
-
-# ============================================
-# 定投计划（仅用于 AI 分析提示）
-# 系统不会自动执行买入，仅作为调仓建议依据
-# ============================================
-fixed_investment:
-  daily:
-    - code: "001917"
-      amount: 6             # 每天 6 元
-      name: "招商量化精选股票A"
-    - code: "011609"
-      amount: 6
-      name: "易方达上证科创50ETF联接C"
-    - code: "022460"
-      amount: 6
-      name: "易方达中证A500ETF联接C"
-    - code: "019305"
-      amount: 10
-      name: "摩根标普500指数(QDII)人民币C"
-    - code: "006479"
-      amount: 10
-      name: "广发纳斯达克100ETF联接(QDII)C"
 
 # ============================================
 # 大盘指数跟踪（基准对比）
@@ -138,10 +95,7 @@ ai_analysis:
        今日表现如何？成交量有无异常？
     3. 黄金行情今日如何？对避险情绪有何提示？
     4. 短期趋势判断（1-2周维度）和调仓建议
-    5. 如有组合风险数据，结合最大回撤和波动率评估当前风险水平。
-      考虑定投计划的影响（招商量化、科创50、A500各6元/天；
-      标普500、纳指100各10元/天），
-      定投对整体风险有何影响？
+    5. 如有风险数据，结合最大回撤和波动率评估当前风险水平。
 
 # 交叉验证设置
 validation:

@@ -22,3 +22,6 @@ Thumbs.db
 
 # 只忽略本地配置副本，不忽略配置文件本身
 # config/settings.yaml 是必需的，需要提交
+
+# Database
+data/portfolio.db
