@@ -11,55 +11,27 @@ schedule:
 # 跟踪基金/ETF（仅用于净值追踪与日报分析）
 # ============================================
 funds:
-  - code: "009478"
-    name: "中银上海金ETF联接C"
-    type: fund
-  - code: "001123"
-    name: "鹏华弘利混合C"
-    type: fund
-  - code: "013880"
-    name: "广发招享混合C"
-    type: fund
-  - code: "001917"
-    name: "招商量化精选股票A"
-    type: fund
-  - code: "026711"
-    name: "富国核心动力混合C"
-    type: fund
-  - code: "000386"
-    name: "景顺长城景颐双利债券C"
-    type: fund
   - code: "019305"
     name: "摩根标普500指数(QDII)人民币C"
-    type: fund
-  - code: "013286"
-    name: "富国上证指数ETF联接C"
     type: fund
   - code: "006479"
     name: "广发纳斯达克100ETF联接(QDII)C"
     type: fund
-  - code: "013403"
-    name: "华夏恒生科技ETF联接(QDII)C"
-    type: fund
-  - code: "019671"
-    name: "广发港股创新药ETF联接(QDII)C"
-    type: fund
-  - code: "007028"
-    name: "易方达中证500ETF联接A"
-    type: fund
   - code: "022460"
     name: "易方达中证A500ETF联接C"
     type: fund
-  - code: "011609"
-    name: "易方达上证科创50ETF联接C"
-    type: fund
-  - code: "000217"
-    name: "华安黄金ETF联接C"
+  - code: "000216"
+    name: "华安黄金ETF联接A"
     type: fund
   - code: "007339"
     name: "易方达沪深300ETF联接C"
     type: fund
-
+  - code: "020065"
+    name: "西部利得科技创新混合C"
+    type: fund
+  - code: "005698"
+    name: "华夏全球科技先锋混合（QDII）A"
+    type: fund
 # ============================================
 # 大盘指数跟踪（基准对比）
 # ============================================
