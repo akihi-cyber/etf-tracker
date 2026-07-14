@@ -28,6 +28,7 @@ from src.config import Config
 from src.fetchers.eastmoney_fund import EastMoneyFundFetcher
 from src.fetchers.fallback import FallbackFetcher
 from src.fetchers.index_fetcher import fetch_all_indices
+from src.feed import update_feed
 from src.validator import Validator
 from src.analyzer import analyze
 from src.reporter import generate_report
@@ -111,6 +112,9 @@ def main():
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     report_path.write_text(report, encoding="utf-8")
+    report_path.write_text(report, encoding="utf-8")
+    # 更新 RSS Feed
+    update_feed(_PROJ / "data")
     print(f"  ✅ 日报已保存: {report_path}")
 
     # 打印预览
@@ -127,8 +131,8 @@ def main():
         print("\n🎉 全部完成！")
     except Exception as e:
         print(f"\n{e}")
-        # 仍然保留本地日报
-        print(f"📁 日报已保留在本地: {report_path}")
+        print(f"📁 日报已保留在本地（邮件发送失败，文件正常保存）")
+        # 不 exit，让后续提交数据存档步骤正常执行
  
 
 
