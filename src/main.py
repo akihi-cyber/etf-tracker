@@ -129,7 +129,7 @@ def main():
         print(f"\n{e}")
         # 仍然保留本地日报
         print(f"📁 日报已保留在本地: {report_path}")
-        sys.exit(1)
+ 
 
 
 if __name__ == "__main__":
