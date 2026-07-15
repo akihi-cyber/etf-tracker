@@ -6,9 +6,32 @@ RSS Feed 生成模块
 """
 
 import os
+import re
 from datetime import datetime, timezone, timedelta
+from email.utils import format_datetime
 from pathlib import Path
-from xml.sax.saxutils import escape
+from xml.etree import ElementTree
+
+
+TZ_CN = timezone(timedelta(hours=8))
+ATOM_NS = "http://www.w3.org/2005/Atom"
+CONTENT_NS = "http://purl.org/rss/1.0/modules/content/"
+
+ElementTree.register_namespace("atom", ATOM_NS)
+ElementTree.register_namespace("content", CONTENT_NS)
+
+
+def _report_datetime(date_str: str, content: str) -> datetime:
+    dt = datetime.strptime(date_str, "%Y%m%d").replace(tzinfo=TZ_CN)
+    match = re.search(r"生成时间[:：]\s*(\d{1,2}):(\d{2})\s*北京时间", content)
+    if not match:
+        return dt
+
+    hour = int(match.group(1))
+    minute = int(match.group(2))
+    if hour > 23 or minute > 59:
+        return dt
+    return dt.replace(hour=hour, minute=minute)
 
 
 def update_feed(reports_dir: Path, repo_full_name: str | None = None) -> None:
@@ -35,7 +58,8 @@ def update_feed(reports_dir: Path, repo_full_name: str | None = None) -> None:
     for rp in report_files[:50]:  # 最多保留 50 条
         date_str = rp.stem.replace("report_", "")
         try:
-            dt = datetime.strptime(date_str, "%Y%m%d").replace(tzinfo=timezone(timedelta(hours=8)))
+            content = rp.read_text(encoding="utf-8")
+            dt = _report_datetime(date_str, content)
         except ValueError:
             continue
 
@@ -43,42 +67,40 @@ def update_feed(reports_dir: Path, repo_full_name: str | None = None) -> None:
         link = f"{base_url}/{rp.name}"
         guid = rp.stem
 
-        content = rp.read_text(encoding="utf-8")
         desc = content[:500].strip()
 
-        pub_date = dt.strftime("%a, %d %b %Y %H:%M:%S +0800")
-        items.append((pub_date, title, link, guid, desc))
-
-    # 按时间排序（最新的在前）
-    items.sort(key=lambda x: x[0], reverse=True)
+        items.append((dt, title, link, guid, desc, content))
 
     # 生成 RSS XML
     feed_path = reports_dir / "feed.xml"
 
-    rss_items = ""
-    for pub_date, title, link, guid, desc in items:
-        rss_items += f"""    <item>
-      <title>{escape(title)}</title>
-      <link>{escape(link)}</link>
-      <guid isPermaLink="false">{escape(guid)}</guid>
-      <pubDate>{pub_date}</pubDate>
-      <description><![CDATA[{desc}]]></description>
-    </item>
-"""
+    rss = ElementTree.Element("rss", {"version": "2.0"})
+    channel = ElementTree.SubElement(rss, "channel")
+    ElementTree.SubElement(channel, "title").text = "ETF 日报"
+    ElementTree.SubElement(channel, "link").text = f"https://github.com/{repo_full_name}"
+    ElementTree.SubElement(channel, "description").text = "每日基金/ETF净值数据与行情分析日报"
+    ElementTree.SubElement(channel, "language").text = "zh-cn"
+    ElementTree.SubElement(channel, "lastBuildDate").text = format_datetime(datetime.now(TZ_CN))
+    ElementTree.SubElement(
+        channel,
+        f"{{{ATOM_NS}}}link",
+        {
+            "href": f"{base_url}/feed.xml",
+            "rel": "self",
+            "type": "application/rss+xml",
+        },
+    )
 
-    now_str = datetime.now(timezone(timedelta(hours=8))).strftime("%a, %d %b %Y %H:%M:%S +0800")
+    for dt, title, link, guid, desc, content in items:
+        item = ElementTree.SubElement(channel, "item")
+        ElementTree.SubElement(item, "title").text = title
+        ElementTree.SubElement(item, "link").text = link
+        ElementTree.SubElement(item, "guid", {"isPermaLink": "false"}).text = guid
+        ElementTree.SubElement(item, "pubDate").text = format_datetime(dt)
+        ElementTree.SubElement(item, "description").text = desc
+        ElementTree.SubElement(item, f"{{{CONTENT_NS}}}encoded").text = content
 
-    feed_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>ETF 日报</title>
-    <link>https://github.com/{repo_full_name}</link>
-    <description>每日基金/ETF净值数据与行情分析日报</description>
-    <language>zh-cn</language>
-    <lastBuildDate>{now_str}</lastBuildDate>
-    <atom:link href="{base_url}/feed.xml" rel="self" type="application/rss+xml"/>
-{rss_items}  </channel>
-</rss>"""
-
+    ElementTree.indent(rss, space="  ")
+    feed_xml = ElementTree.tostring(rss, encoding="unicode", xml_declaration=True)
     feed_path.write_text(feed_xml, encoding="utf-8")
     print(f"  ✅ RSS Feed 已更新: {feed_path}")

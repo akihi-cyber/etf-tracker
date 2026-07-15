@@ -16,7 +16,7 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 # 项目根路径
@@ -114,6 +114,15 @@ async def index():
     if _HTML_PATH.exists():
         return _HTML_PATH.read_text(encoding="utf-8")
     return "<h1>ETF Tracker</h1><p>Dashboard not found</p>"
+
+
+@app.get("/feed.xml")
+async def rss_feed():
+    """RSS 订阅源，显式返回 application/rss+xml。"""
+    feed_path = _PROJ / "data" / "feed.xml"
+    if not feed_path.exists():
+        raise HTTPException(status_code=404, detail="RSS feed not found")
+    return Response(feed_path.read_text(encoding="utf-8"), media_type="application/rss+xml")
 
 
 # ── API ─────────────────────────────────────────────────────

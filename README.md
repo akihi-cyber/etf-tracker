@@ -133,6 +133,26 @@ python src/main.py
 
 ---
 
+## 📡 RSS 订阅
+
+每次生成日报后会同步更新 `data/feed.xml`。如果只使用 GitHub raw 地址，响应头通常是 `text/plain`，部分严格的 RSS 阅读器可能无法识别。
+
+推荐部署 Web 服务后订阅：
+
+```text
+https://你的域名/feed.xml
+```
+
+本地检查：
+
+```bash
+uvicorn src.web:app --reload --port 8080
+```
+
+然后打开 `http://127.0.0.1:8080/feed.xml`。该接口会显式返回 `application/rss+xml`。
+
+---
+
 ## 🤖 后续可扩展
 
 - [ ] AI 分析接入 DeepSeek/OpenAI

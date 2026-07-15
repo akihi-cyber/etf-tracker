@@ -112,7 +112,6 @@ def main():
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     report_path.write_text(report, encoding="utf-8")
-    report_path.write_text(report, encoding="utf-8")
     # 更新 RSS Feed
     update_feed(_PROJ / "data")
     print(f"  ✅ 日报已保存: {report_path}")
