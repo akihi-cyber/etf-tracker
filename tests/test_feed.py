@@ -60,6 +60,39 @@ class FeedGenerationTests(unittest.TestCase):
 
         self.assertEqual(pub_date, "Tue, 14 Jul 2026 23:02:00 +0800")
 
+    def test_feed_content_encoded_renders_markdown_as_html(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            reports_dir = Path(tmp)
+            (reports_dir / "report_20260714.md").write_text(
+                "\n".join(
+                    [
+                        "## 基金日报",
+                        "",
+                        "### 今日净值",
+                        "",
+                        "| 基金 | 代码 | 日涨跌幅 |",
+                        "|------|------|:-------:|",
+                        "| 示例基金 | `000001` | **+1.23%** |",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            update_feed(reports_dir, repo_full_name="owner/repo")
+
+            root = ElementTree.parse(reports_dir / "feed.xml").getroot()
+            ns = {"content": "http://purl.org/rss/1.0/modules/content/"}
+            html = root.find("./channel/item/content:encoded", ns).text
+            description = root.findtext("./channel/item/description")
+
+        self.assertIn("<h2>基金日报</h2>", html)
+        self.assertIn("<h3>今日净值</h3>", html)
+        self.assertIn("<table>", html)
+        self.assertIn("<code>000001</code>", html)
+        self.assertIn("<strong>+1.23%</strong>", html)
+        self.assertNotIn("|------|", html)
+        self.assertNotIn("|------|", description)
+
 
 if __name__ == "__main__":
     unittest.main()

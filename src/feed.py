@@ -7,6 +7,7 @@ RSS Feed 生成模块
 
 import os
 import re
+from html import escape as html_escape
 from datetime import datetime, timezone, timedelta
 from email.utils import format_datetime
 from pathlib import Path
@@ -32,6 +33,137 @@ def _report_datetime(date_str: str, content: str) -> datetime:
     if hour > 23 or minute > 59:
         return dt
     return dt.replace(hour=hour, minute=minute)
+
+
+def _inline_markdown_to_html(text: str) -> str:
+    text = html_escape(text.strip())
+    text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"(?<!\*)_([^_]+)_(?!\*)", r"<em>\1</em>", text)
+    return text
+
+
+def _is_table_separator(line: str) -> bool:
+    cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+    return bool(cells) and all(re.fullmatch(r":?-{3,}:?", cell) for cell in cells)
+
+
+def _parse_table_row(line: str) -> list[str]:
+    return [cell.strip() for cell in line.strip().strip("|").split("|")]
+
+
+def _render_table(lines: list[str]) -> str:
+    rows = [_parse_table_row(line) for line in lines if not _is_table_separator(line)]
+    if not rows:
+        return ""
+
+    header, body = rows[0], rows[1:]
+    html = ["<table>", "<thead><tr>"]
+    html.extend(f"<th>{_inline_markdown_to_html(cell)}</th>" for cell in header)
+    html.append("</tr></thead>")
+
+    if body:
+        html.append("<tbody>")
+        for row in body:
+            html.append("<tr>")
+            html.extend(f"<td>{_inline_markdown_to_html(cell)}</td>" for cell in row)
+            html.append("</tr>")
+        html.append("</tbody>")
+
+    html.append("</table>")
+    return "".join(html)
+
+
+def _markdown_to_html(content: str) -> str:
+    html = []
+    lines = content.splitlines()
+    i = 0
+    in_list = False
+
+    while i < len(lines):
+        line = lines[i].rstrip()
+        stripped = line.strip()
+
+        if not stripped:
+            if in_list:
+                html.append("</ul>")
+                in_list = False
+            i += 1
+            continue
+
+        if stripped.startswith("|") and stripped.endswith("|"):
+            table_lines = []
+            while i < len(lines):
+                table_line = lines[i].strip()
+                if not (table_line.startswith("|") and table_line.endswith("|")):
+                    break
+                table_lines.append(table_line)
+                i += 1
+            if in_list:
+                html.append("</ul>")
+                in_list = False
+            table_html = _render_table(table_lines)
+            if table_html:
+                html.append(table_html)
+            continue
+
+        heading = re.match(r"^(#{1,4})\s+(.+)$", stripped)
+        if heading:
+            if in_list:
+                html.append("</ul>")
+                in_list = False
+            level = len(heading.group(1))
+            html.append(f"<h{level}>{_inline_markdown_to_html(heading.group(2))}</h{level}>")
+            i += 1
+            continue
+
+        if stripped == "---":
+            if in_list:
+                html.append("</ul>")
+                in_list = False
+            html.append("<hr />")
+            i += 1
+            continue
+
+        if stripped.startswith("- "):
+            if not in_list:
+                html.append("<ul>")
+                in_list = True
+            html.append(f"<li>{_inline_markdown_to_html(stripped[2:])}</li>")
+            i += 1
+            continue
+
+        if in_list:
+            html.append("</ul>")
+            in_list = False
+        html.append(f"<p>{_inline_markdown_to_html(stripped)}</p>")
+        i += 1
+
+    if in_list:
+        html.append("</ul>")
+
+    return "\n".join(html)
+
+
+def _summary_text(content: str, limit: int = 220) -> str:
+    lines = []
+    for line in content.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped == "---" or _is_table_separator(stripped):
+            continue
+        stripped = re.sub(r"^#{1,6}\s*", "", stripped)
+        stripped = stripped.replace("|", " ")
+        stripped = re.sub(r"`([^`]+)`", r"\1", stripped)
+        stripped = re.sub(r"\*\*([^*]+)\*\*", r"\1", stripped)
+        stripped = re.sub(r"(?<!\*)_([^_]+)_(?!\*)", r"\1", stripped)
+        stripped = re.sub(r"\s+", " ", stripped).strip()
+        if stripped:
+            lines.append(stripped)
+
+    summary = " ".join(lines)
+    if len(summary) <= limit:
+        return summary
+    return summary[: limit - 1].rstrip() + "…"
 
 
 def update_feed(reports_dir: Path, repo_full_name: str | None = None) -> None:
@@ -67,9 +199,10 @@ def update_feed(reports_dir: Path, repo_full_name: str | None = None) -> None:
         link = f"{base_url}/{rp.name}"
         guid = rp.stem
 
-        desc = content[:500].strip()
+        desc = _summary_text(content)
+        html_content = _markdown_to_html(content)
 
-        items.append((dt, title, link, guid, desc, content))
+        items.append((dt, title, link, guid, desc, html_content))
 
     # 生成 RSS XML
     feed_path = reports_dir / "feed.xml"
@@ -91,14 +224,14 @@ def update_feed(reports_dir: Path, repo_full_name: str | None = None) -> None:
         },
     )
 
-    for dt, title, link, guid, desc, content in items:
+    for dt, title, link, guid, desc, html_content in items:
         item = ElementTree.SubElement(channel, "item")
         ElementTree.SubElement(item, "title").text = title
         ElementTree.SubElement(item, "link").text = link
         ElementTree.SubElement(item, "guid", {"isPermaLink": "false"}).text = guid
         ElementTree.SubElement(item, "pubDate").text = format_datetime(dt)
         ElementTree.SubElement(item, "description").text = desc
-        ElementTree.SubElement(item, f"{{{CONTENT_NS}}}encoded").text = content
+        ElementTree.SubElement(item, f"{{{CONTENT_NS}}}encoded").text = html_content
 
     ElementTree.indent(rss, space="  ")
     feed_xml = ElementTree.tostring(rss, encoding="unicode", xml_declaration=True)
