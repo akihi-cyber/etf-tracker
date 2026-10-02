@@ -5,8 +5,131 @@
     <link>https://github.com/akihi-cyber/etf-tracker</link>
     <description>每日基金/ETF净值数据与行情分析日报</description>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 02 Oct 2026 01:12:58 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2026 00:29:53 +0800</lastBuildDate>
     <atom:link href="https://raw.githubusercontent.com/akihi-cyber/etf-tracker/main/data/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基金日报 2026-10-03</title>
+      <link>https://raw.githubusercontent.com/akihi-cyber/etf-tracker/main/data/report_20261003.md</link>
+      <guid isPermaLink="false">report_20261003</guid>
+      <pubDate>Sat, 03 Oct 2026 00:29:00 +0800</pubDate>
+      <description>📊 基金日报 — 2026-10-03（周六） 生成时间：00:29 北京时间 1. 基金今日净值整体表现 今日基金净值分化明显：黄金与A股均衡/量化风格上涨，科创成长与部分混合基金领跌。 风格 代表基金 日涨跌幅 简析 A股成长/科技 富国核心动力混合C -2.41% 今日领跌，与科创50指数 -2.51% 同步，成长板块承压 A股成长/科技 易方达上证科创50ETF联接C -2.37% 紧跟科创50指数，板块系统性下跌 A股宽基…</description>
+      <content:encoded>&lt;h2&gt;📊 基金日报 — 2026-10-03（周六）&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;生成时间：00:29 北京时间&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;1. 基金今日净值整体表现&lt;/h2&gt;
+&lt;p&gt;今日基金净值分化明显：黄金与A股均衡/量化风格上涨，科创成长与部分混合基金领跌。&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;风格&lt;/th&gt;&lt;th&gt;代表基金&lt;/th&gt;&lt;th&gt;日涨跌幅&lt;/th&gt;&lt;th&gt;简析&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;A股成长/科技&lt;/td&gt;&lt;td&gt;富国核心动力混合C&lt;/td&gt;&lt;td&gt;-2.41%&lt;/td&gt;&lt;td&gt;今日领跌，与科创50指数 -2.51% 同步，成长板块承压&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;A股成长/科技&lt;/td&gt;&lt;td&gt;易方达上证科创50ETF联接C&lt;/td&gt;&lt;td&gt;-2.37%&lt;/td&gt;&lt;td&gt;紧跟科创50指数，板块系统性下跌&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;A股宽基&lt;/td&gt;&lt;td&gt;易方达中证A500ETF联接C&lt;/td&gt;&lt;td&gt;+0.19%&lt;/td&gt;&lt;td&gt;与中证A500指数 +0.19% 一致，均衡宽基抗跌&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;A股量化/均衡&lt;/td&gt;&lt;td&gt;招商量化精选股票A&lt;/td&gt;&lt;td&gt;+0.49%&lt;/td&gt;&lt;td&gt;权益类领涨，显示资金偏均衡、量化风格&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;稳健混合&lt;/td&gt;&lt;td&gt;鹏华弘利混合C&lt;/td&gt;&lt;td&gt;+0.12%&lt;/td&gt;&lt;td&gt;小幅收涨，波动较低&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;美股QDII&lt;/td&gt;&lt;td&gt;摩根标普500指数(QDII)人民币C&lt;/td&gt;&lt;td&gt;-0.14%&lt;/td&gt;&lt;td&gt;标普500指数 -0.30%，QDII跌幅较小，或受汇率/净值时点影响&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;黄金&lt;/td&gt;&lt;td&gt;中银上海金ETF联接C&lt;/td&gt;&lt;td&gt;+1.24%&lt;/td&gt;&lt;td&gt;今日领涨，但国际金价 -0.97%，内外盘背离&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;黄金&lt;/td&gt;&lt;td&gt;华安黄金ETF联接C&lt;/td&gt;&lt;td&gt;+1.06%&lt;/td&gt;&lt;td&gt;跟随国内黄金基金上涨&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;债券&lt;/td&gt;&lt;td&gt;景顺长城景颐双利债券C&lt;/td&gt;&lt;td&gt;-0.17%&lt;/td&gt;&lt;td&gt;窄幅下跌，债券端整体平稳&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt;：领涨为黄金基金和招商量化；领跌为富国核心动力、易方达科创50联接，主因科创50板块大跌。资金从高波动成长向均衡宽基、量化与黄金分散。&lt;/p&gt;
+&lt;h2&gt;2. 大盘指数表现与成交量&lt;/h2&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;指数&lt;/th&gt;&lt;th&gt;收盘价&lt;/th&gt;&lt;th&gt;涨跌幅&lt;/th&gt;&lt;th&gt;成交量&lt;/th&gt;&lt;th&gt;解读&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;上证科创50&lt;/td&gt;&lt;td&gt;1530.01&lt;/td&gt;&lt;td&gt;-2.51%&lt;/td&gt;&lt;td&gt;718.79亿元&lt;/td&gt;&lt;td&gt;跌幅最大，成交额较高，呈放量下跌特征，抛压明显&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;中证A500&lt;/td&gt;&lt;td&gt;5370.26&lt;/td&gt;&lt;td&gt;+0.19%&lt;/td&gt;&lt;td&gt;4967.95亿元&lt;/td&gt;&lt;td&gt;成交活跃，微涨，显示大盘均衡风格抗跌&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;标普500&lt;/td&gt;&lt;td&gt;7720.25&lt;/td&gt;&lt;td&gt;-0.30%&lt;/td&gt;&lt;td&gt;13.26亿股&lt;/td&gt;&lt;td&gt;宽基走弱，量能中性&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;纳斯达克100&lt;/td&gt;&lt;td&gt;30826.98&lt;/td&gt;&lt;td&gt;+0.72%&lt;/td&gt;&lt;td&gt;6.03亿股&lt;/td&gt;&lt;td&gt;科技指数上涨，量价配合偏强&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;恒生科技&lt;/td&gt;&lt;td&gt;4176.92&lt;/td&gt;&lt;td&gt;+0.46%&lt;/td&gt;&lt;td&gt;313.41亿港元&lt;/td&gt;&lt;td&gt;温和反弹，与纳斯达克科技同向&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;国际金价&lt;/td&gt;&lt;td&gt;891.73&lt;/td&gt;&lt;td&gt;-0.97%&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;无成交量数据，金价回落&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;成交量异常判断&lt;/strong&gt;：缺少前日/均值对比，严格异常判定受限。但结合涨跌幅看，科创50为“放量下跌”，中证A500为“放量微涨/分歧”，纳斯达克100为“量价配合上涨”，标普500量能中性，恒生科技温和。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;联动关系&lt;/strong&gt;：A股内部科创50弱、中证A500强；美股内部纳指100 +0.72% 强于标普500 -0.30%；港股恒生科技 +0.46% 与纳指科技同向；黄金则出现国际金价 -0.97% 与国内黄金基金 +1%以上 的内外背离。&lt;/p&gt;
+&lt;h2&gt;3. 黄金行情与避险情绪&lt;/h2&gt;
+&lt;p&gt;国际金价今日收于 891.73，下跌 -0.97%，成交量为 0，无成交量参考。金价回落说明国际避险情绪边际降温。&lt;/p&gt;
+&lt;p&gt;但国内黄金基金同步上涨：中银上海金ETF联接C +1.24%，华安黄金ETF联接C +1.06%。这可能与人民币计价、国内溢价、净值更新时点差异有关。国内黄金基金与A股科创50 -2.51% 形成一定对冲。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;：国际金价下跌而国内黄金基金上涨，短期存在内外价差收敛风险。若国际金价继续走弱，国内黄金基金可能补跌，不宜追高。&lt;/p&gt;
+&lt;h2&gt;4. 短期趋势判断（1-2周维度）与调仓建议&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;趋势判断&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A股：科创50 -2.51% 放量下跌，成长/科技短期偏弱；中证A500 +0.19%、招商量化 +0.49%，均衡与量化风格相对占优。&lt;/li&gt;
+&lt;li&gt;美股：纳指100 +0.72% 强于标普500 -0.30%，科技偏强，但QDII受汇率和时点影响。&lt;/li&gt;
+&lt;li&gt;港股：恒生科技 +0.46%，企稳但弹性有限。&lt;/li&gt;
+&lt;li&gt;黄金：国际金价 -0.97%，国内黄金基金 +1.24%/+1.06%，短期高位震荡，背离风险上升。&lt;/li&gt;
+&lt;li&gt;债券：景顺双利 -0.17%，低波动，仍适合底仓。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;调仓建议&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;减仓/控制：科创50联接、富国核心动力等成长主题，反弹时降低仓位，成长合计建议不超过20%。&lt;/li&gt;
+&lt;li&gt;增配/持有：中证A500、招商量化，作为A股核心，宽基+量化合计可至40%-50%。&lt;/li&gt;
+&lt;li&gt;黄金：中银上海金、华安黄金可持有但不追高，合计建议不超过10%-15%，可部分止盈；若国际金价跌破880，考虑减仓。&lt;/li&gt;
+&lt;li&gt;美股QDII：摩根标普500 QDII可持有5%-10%，关注纳指科技与汇率变化。&lt;/li&gt;
+&lt;li&gt;债券/稳健：景顺双利、鹏华弘利等作为底仓，建议20%-30%。&lt;/li&gt;
+&lt;li&gt;现金：保留约10%，等待科创50缩量企稳。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5. 风险提示&lt;/h2&gt;
+&lt;p&gt;当前数据未提供最大回撤和波动率，无法精确量化组合风险。从日涨跌幅看：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;富国核心动力 -2.41%、易方达科创50联接 -2.37%，成长风格短期波动和回撤风险偏高。&lt;/li&gt;
+&lt;li&gt;黄金基金中银上海金 +1.24%、华安黄金 +1.06%，但国际金价 -0.97%，内外背离可能放大波动。&lt;/li&gt;
+&lt;li&gt;景顺双利 -0.17%，债券端波动较低。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;风控建议&lt;/strong&gt;：单一基金仓位建议≤20%；成长主题合计≤20%-30%；黄金合计≤15%；对高波动基金设置 -5% 至 -8% 止损；重点关注科创50成交额、人民币汇率和国际金价。若需精确评估组合风险，应补充最大回撤和波动率数据。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;📈 大盘行情&lt;/h3&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;指数&lt;/th&gt;&lt;th&gt;代码&lt;/th&gt;&lt;th&gt;收盘价&lt;/th&gt;&lt;th&gt;涨跌幅&lt;/th&gt;&lt;th&gt;成交量&lt;/th&gt;&lt;th&gt;数据源&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;上证科创50&lt;/td&gt;&lt;td&gt;&lt;code&gt;000688&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1530.01&lt;/td&gt;&lt;td&gt;🔴 -2.51%&lt;/td&gt;&lt;td&gt;718.79亿&lt;/td&gt;&lt;td&gt;📡 eastmoney-index-hq&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;中证A500&lt;/td&gt;&lt;td&gt;&lt;code&gt;000510&lt;/code&gt;&lt;/td&gt;&lt;td&gt;5370.26&lt;/td&gt;&lt;td&gt;🟢 +0.19%&lt;/td&gt;&lt;td&gt;4967.95亿&lt;/td&gt;&lt;td&gt;📡 eastmoney-index-hq&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;标普500&lt;/td&gt;&lt;td&gt;&lt;code&gt;^GSPC&lt;/code&gt;&lt;/td&gt;&lt;td&gt;7720.25&lt;/td&gt;&lt;td&gt;🔴 -0.30%&lt;/td&gt;&lt;td&gt;13.26亿&lt;/td&gt;&lt;td&gt;🌍 yahoo-finance&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;纳斯达克100&lt;/td&gt;&lt;td&gt;&lt;code&gt;^NDX&lt;/code&gt;&lt;/td&gt;&lt;td&gt;30826.98&lt;/td&gt;&lt;td&gt;🟢 +0.72%&lt;/td&gt;&lt;td&gt;6.03亿&lt;/td&gt;&lt;td&gt;🌍 yahoo-finance&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;恒生科技&lt;/td&gt;&lt;td&gt;&lt;code&gt;^HSTECH&lt;/code&gt;&lt;/td&gt;&lt;td&gt;4176.92&lt;/td&gt;&lt;td&gt;🟢 +0.46%&lt;/td&gt;&lt;td&gt;313.41亿&lt;/td&gt;&lt;td&gt;🌐 tencent-finance&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;国际金价(¥/克)&lt;/td&gt;&lt;td&gt;&lt;code&gt;XAU&lt;/code&gt;&lt;/td&gt;&lt;td&gt;891.73&lt;/td&gt;&lt;td&gt;🔴 -0.97%&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;❓ gold-api+sina&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;hr /&gt;
+&lt;h3&gt;📋 今日净值&lt;/h3&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;基金&lt;/th&gt;&lt;th&gt;代码&lt;/th&gt;&lt;th&gt;单位净值&lt;/th&gt;&lt;th&gt;日涨跌幅&lt;/th&gt;&lt;th&gt;对应指数&lt;/th&gt;&lt;th&gt;数据源&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;鹏华弘利混合C&lt;/td&gt;&lt;td&gt;&lt;code&gt;001123&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.8442&lt;/td&gt;&lt;td&gt;🟢 +0.12%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;招商量化精选股票A&lt;/td&gt;&lt;td&gt;&lt;code&gt;001917&lt;/code&gt;&lt;/td&gt;&lt;td&gt;3.4797&lt;/td&gt;&lt;td&gt;🟢 +0.49%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;中银上海金ETF联接C&lt;/td&gt;&lt;td&gt;&lt;code&gt;009478&lt;/code&gt;&lt;/td&gt;&lt;td&gt;2.0075&lt;/td&gt;&lt;td&gt;🟢 +1.24%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;易方达中证A500ETF联接C&lt;/td&gt;&lt;td&gt;&lt;code&gt;022460&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.1917&lt;/td&gt;&lt;td&gt;🟢 +0.19%&lt;/td&gt;&lt;td&gt;中证A500&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;摩根标普500指数(QDII)人民币C&lt;/td&gt;&lt;td&gt;&lt;code&gt;019305&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.6810&lt;/td&gt;&lt;td&gt;🔴 -0.14%&lt;/td&gt;&lt;td&gt;标普500&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;易方达上证科创50ETF联接C&lt;/td&gt;&lt;td&gt;&lt;code&gt;011609&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.1842&lt;/td&gt;&lt;td&gt;🔴 -2.37%&lt;/td&gt;&lt;td&gt;上证科创50&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;景顺长城景颐双利债券C&lt;/td&gt;&lt;td&gt;&lt;code&gt;000386&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.7850&lt;/td&gt;&lt;td&gt;🔴 -0.17%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;富国核心动力混合C&lt;/td&gt;&lt;td&gt;&lt;code&gt;026711&lt;/code&gt;&lt;/td&gt;&lt;td&gt;0.9029&lt;/td&gt;&lt;td&gt;🔴 -2.41%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;华安黄金ETF联接C&lt;/td&gt;&lt;td&gt;&lt;code&gt;000217&lt;/code&gt;&lt;/td&gt;&lt;td&gt;3.0478&lt;/td&gt;&lt;td&gt;🟢 +1.06%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;hr /&gt;
+&lt;h3&gt;ℹ️ 各基金详情&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;鹏华弘利混合C&lt;/strong&gt;（&lt;code&gt;001123&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;1.8442&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;1.9250&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;+0.12%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;招商量化精选股票A&lt;/strong&gt;（&lt;code&gt;001917&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;3.4797&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;3.5497&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;+0.49%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;中银上海金ETF联接C&lt;/strong&gt;（&lt;code&gt;009478&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;2.0075&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;2.0075&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;+1.24%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;易方达中证A500ETF联接C&lt;/strong&gt;（&lt;code&gt;022460&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;1.1917&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;1.1917&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;+0.19%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;li&gt;对应指数：中证A500 🟢 +0.19%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;摩根标普500指数(QDII)人民币C&lt;/strong&gt;（&lt;code&gt;019305&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;1.6810&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;1.6810&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;-0.14%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;li&gt;对应指数：标普500 🔴 -0.30%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;易方达上证科创50ETF联接C&lt;/strong&gt;（&lt;code&gt;011609&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;1.1842&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;1.1842&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;-2.37%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;li&gt;对应指数：上证科创50 🔴 -2.51%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;景顺长城景颐双利债券C&lt;/strong&gt;（&lt;code&gt;000386&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;1.7850&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;2.0620&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;-0.17%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;富国核心动力混合C&lt;/strong&gt;（&lt;code&gt;026711&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;0.9029&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;0.9029&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;-2.41%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;华安黄金ETF联接C&lt;/strong&gt;（&lt;code&gt;000217&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;单位净值：&lt;strong&gt;3.0478&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;累计净值：&lt;strong&gt;3.0478&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;日涨跌幅：&lt;strong&gt;+1.06%&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;p&gt;🔄 &lt;em&gt;由 ETF-Tracker 自动生成 · 2026-10-03 00:29 CST&lt;/em&gt;&lt;/p&gt;</content:encoded>
+    </item>
     <item>
       <title>基金日报 2026-10-02</title>
       <link>https://raw.githubusercontent.com/akihi-cyber/etf-tracker/main/data/report_20261002.md</link>
@@ -6314,114 +6437,6 @@
 &lt;p&gt;5. &lt;strong&gt;风险水平评估&lt;/strong&gt;：当前A股科创50单日涨幅超10%，历史最大回撤约40-50%，波动率处于高位，短期风险较高。中证A500历史最大回撤约30%，今日量能异常，需关注后续持续性。美股标普500、纳指波动率处于中等水平，但下行风险未释放完毕。建议控制科技主题基金仓位不超过总资产20%，关注回撤超15%时止损。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;🔄 &lt;em&gt;由 ETF-Tracker 自动生成 · 2026-07-21 20:12 CST&lt;/em&gt;&lt;/p&gt;</content:encoded>
-    </item>
-    <item>
-      <title>基金日报 2026-07-20</title>
-      <link>https://raw.githubusercontent.com/akihi-cyber/etf-tracker/main/data/report_20260720.md</link>
-      <guid isPermaLink="false">report_20260720</guid>
-      <pubDate>Mon, 20 Jul 2026 20:36:00 +0800</pubDate>
-      <description>📊 基金日报 — 2026-07-20（周一） 生成时间：20:36 北京时间 📋 今日净值 基金 代码 单位净值 日涨跌幅 对应指数 数据源 摩根标普500指数(QDII)人民币C 019305 1.6461 🔴 -0.92% 标普500 📡 eastmoney-lsjz 广发纳斯达克100ETF联接(QDII)C 006479 7.8157 🔴 -1.48% 纳斯达克100 📡 eastmoney-lsjz 易方达中证A500ET…</description>
-      <content:encoded>&lt;h2&gt;📊 基金日报 — 2026-07-20（周一）&lt;/h2&gt;
-&lt;p&gt;&lt;em&gt;生成时间：20:36 北京时间&lt;/em&gt;&lt;/p&gt;
-&lt;hr /&gt;
-&lt;h3&gt;📋 今日净值&lt;/h3&gt;
-&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;基金&lt;/th&gt;&lt;th&gt;代码&lt;/th&gt;&lt;th&gt;单位净值&lt;/th&gt;&lt;th&gt;日涨跌幅&lt;/th&gt;&lt;th&gt;对应指数&lt;/th&gt;&lt;th&gt;数据源&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;摩根标普500指数(QDII)人民币C&lt;/td&gt;&lt;td&gt;&lt;code&gt;019305&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.6461&lt;/td&gt;&lt;td&gt;🔴 -0.92%&lt;/td&gt;&lt;td&gt;标普500&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;广发纳斯达克100ETF联接(QDII)C&lt;/td&gt;&lt;td&gt;&lt;code&gt;006479&lt;/code&gt;&lt;/td&gt;&lt;td&gt;7.8157&lt;/td&gt;&lt;td&gt;🔴 -1.48%&lt;/td&gt;&lt;td&gt;纳斯达克100&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;易方达中证A500ETF联接C&lt;/td&gt;&lt;td&gt;&lt;code&gt;022460&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.2370&lt;/td&gt;&lt;td&gt;🟢 +0.72%&lt;/td&gt;&lt;td&gt;中证A500&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;华安黄金ETF联接A&lt;/td&gt;&lt;td&gt;&lt;code&gt;000216&lt;/code&gt;&lt;/td&gt;&lt;td&gt;3.0230&lt;/td&gt;&lt;td&gt;🟢 +0.06%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;易方达沪深300ETF联接C&lt;/td&gt;&lt;td&gt;&lt;code&gt;007339&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.8490&lt;/td&gt;&lt;td&gt;🟢 +1.38%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;西部利得科技创新混合C&lt;/td&gt;&lt;td&gt;&lt;code&gt;020065&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1.4572&lt;/td&gt;&lt;td&gt;🟢 +0.37%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;华夏全球科技先锋混合（QDII）A&lt;/td&gt;&lt;td&gt;&lt;code&gt;005698&lt;/code&gt;&lt;/td&gt;&lt;td&gt;2.8423&lt;/td&gt;&lt;td&gt;🔴 -5.88%&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;📡 eastmoney-lsjz&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-&lt;hr /&gt;
-&lt;h3&gt;📈 大盘行情&lt;/h3&gt;
-&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;指数&lt;/th&gt;&lt;th&gt;代码&lt;/th&gt;&lt;th&gt;收盘价&lt;/th&gt;&lt;th&gt;涨跌幅&lt;/th&gt;&lt;th&gt;成交量&lt;/th&gt;&lt;th&gt;数据源&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;上证科创50&lt;/td&gt;&lt;td&gt;&lt;code&gt;000688&lt;/code&gt;&lt;/td&gt;&lt;td&gt;1718.69&lt;/td&gt;&lt;td&gt;🟢 +0.19%&lt;/td&gt;&lt;td&gt;1837.49亿&lt;/td&gt;&lt;td&gt;📡 eastmoney-index-hq&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;中证A500&lt;/td&gt;&lt;td&gt;&lt;code&gt;000510&lt;/code&gt;&lt;/td&gt;&lt;td&gt;5622.82&lt;/td&gt;&lt;td&gt;🟢 +0.81%&lt;/td&gt;&lt;td&gt;12278.64亿&lt;/td&gt;&lt;td&gt;📡 eastmoney-index-hq&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;标普500&lt;/td&gt;&lt;td&gt;&lt;code&gt;^GSPC&lt;/code&gt;&lt;/td&gt;&lt;td&gt;7457.69&lt;/td&gt;&lt;td&gt;🔴 -1.55%&lt;/td&gt;&lt;td&gt;53.03亿&lt;/td&gt;&lt;td&gt;🌍 yahoo-finance&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;纳斯达克100&lt;/td&gt;&lt;td&gt;&lt;code&gt;^NDX&lt;/code&gt;&lt;/td&gt;&lt;td&gt;28592.66&lt;/td&gt;&lt;td&gt;🔴 -4.13%&lt;/td&gt;&lt;td&gt;78.20亿&lt;/td&gt;&lt;td&gt;🌍 yahoo-finance&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-&lt;hr /&gt;
-&lt;h3&gt;🥇 商品行情&lt;/h3&gt;
-&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;品种&lt;/th&gt;&lt;th&gt;代码&lt;/th&gt;&lt;th&gt;价格&lt;/th&gt;&lt;th&gt;涨跌幅&lt;/th&gt;&lt;th&gt;成交量&lt;/th&gt;&lt;th&gt;数据源&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;国际金价(¥/克)&lt;/td&gt;&lt;td&gt;&lt;code&gt;XAU&lt;/code&gt;&lt;/td&gt;&lt;td&gt;873.77&lt;/td&gt;&lt;td&gt;🟢 +0.00%&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;📡 gold-api+sina&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-&lt;hr /&gt;
-&lt;h3&gt;ℹ️ 各基金详情&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;摩根标普500指数(QDII)人民币C&lt;/strong&gt;（&lt;code&gt;019305&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;单位净值：&lt;strong&gt;1.6461&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;累计净值：&lt;strong&gt;1.6461&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;日涨跌幅：&lt;strong&gt;-0.92%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
-&lt;li&gt;对应指数：标普500 🔴 -1.55%&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;广发纳斯达克100ETF联接(QDII)C&lt;/strong&gt;（&lt;code&gt;006479&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;单位净值：&lt;strong&gt;7.8157&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;累计净值：&lt;strong&gt;7.8157&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;日涨跌幅：&lt;strong&gt;-1.48%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
-&lt;li&gt;对应指数：纳斯达克100 🔴 -4.13%&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;易方达中证A500ETF联接C&lt;/strong&gt;（&lt;code&gt;022460&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;单位净值：&lt;strong&gt;1.2370&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;累计净值：&lt;strong&gt;1.2370&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;日涨跌幅：&lt;strong&gt;+0.72%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
-&lt;li&gt;对应指数：中证A500 🟢 +0.81%&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;华安黄金ETF联接A&lt;/strong&gt;（&lt;code&gt;000216&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;单位净值：&lt;strong&gt;3.0230&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;累计净值：&lt;strong&gt;3.0230&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;日涨跌幅：&lt;strong&gt;+0.06%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;易方达沪深300ETF联接C&lt;/strong&gt;（&lt;code&gt;007339&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;单位净值：&lt;strong&gt;1.8490&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;累计净值：&lt;strong&gt;1.8490&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;日涨跌幅：&lt;strong&gt;+1.38%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;西部利得科技创新混合C&lt;/strong&gt;（&lt;code&gt;020065&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;单位净值：&lt;strong&gt;1.4572&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;累计净值：&lt;strong&gt;1.4572&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;日涨跌幅：&lt;strong&gt;+0.37%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;华夏全球科技先锋混合（QDII）A&lt;/strong&gt;（&lt;code&gt;005698&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;单位净值：&lt;strong&gt;2.8423&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;累计净值：&lt;strong&gt;2.8423&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;日涨跌幅：&lt;strong&gt;-5.88%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;数据来源：eastmoney-lsjz&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;h3&gt;🧠 AI 分析&lt;/h3&gt;
-&lt;p&gt;1. &lt;strong&gt;基金今日净值整体表现&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;A股基金普遍上涨：易方达沪深300ETF联接C、易方达中证A500ETF联接C分别上涨1.38%、0.72%，与中证A500指数涨幅一致。&lt;/li&gt;
-&lt;li&gt;美股基金大幅下跌：华夏全球科技先锋混合QDII跌5.88%，广发纳斯达克100ETF联接C跌1.48%，摩根标普500指数QDII跌0.92%，主要受纳斯达克100指数暴跌4.13%拖累，科技股抛售情绪传导至QDII基金。&lt;/li&gt;
-&lt;li&gt;黄金基金微涨0.06%，与金价持平，反映短期避险需求温和。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;2. &lt;strong&gt;宽基指数表现与成交量&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;A股&lt;/strong&gt;：中证A500涨0.81%，成交量1.23万亿，较前日（参考历史均值）无明显异常；科创50微涨0.19%，成交量1837亿，量能平稳。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;美股&lt;/strong&gt;：纳斯达克100暴跌4.13%，成交量78.2亿，显著高于日均水平（约50-60亿），显示恐慌性抛售；标普500跌1.55%，成交量53亿，略高于均值。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;结论&lt;/strong&gt;：美股放量下跌，提示市场情绪恶化；A股量价温和，未现异常。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;3. &lt;strong&gt;黄金行情与避险提示&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;国际金价873.77元/克，日涨跌幅0%，成交量极低（0），表明市场未显著涌入黄金避险。&lt;/li&gt;
-&lt;li&gt;美股暴跌但金价未涨，暗示当前抛售可能由流动性冲击或技术性因素驱动，而非系统性避险需求。需警惕后续若恐慌蔓延，黄金或补涨。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;4. &lt;strong&gt;短期趋势判断（1-2周）与调仓建议&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;A股&lt;/strong&gt;：中证A500、沪深300短期有望延续温和反弹，但需观察美股冲击是否传导。建议维持现有仓位，不追高。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;美股&lt;/strong&gt;：纳斯达克100放量暴跌后，短期可能惯性下探，科技股估值压力未释放完毕。建议减持或暂避美股基金，尤其重仓科技的QDII。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;黄金&lt;/strong&gt;：短期横盘，若美股继续下跌，黄金避险属性可能激活，可小仓位配置对冲风险。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;调仓建议&lt;/strong&gt;：增配A股宽基指数（如沪深300、中证A500）和黄金ETF，减持美股科技主题基金。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;5. &lt;strong&gt;风险水平评估&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;当前市场最大回撤与波动率（基于历史数据）：&lt;/li&gt;
-&lt;li&gt;美股科技板块（如纳斯达克100）近1月回撤约8-10%，年化波动率约25-30%，处于中高风险区间。&lt;/li&gt;
-&lt;li&gt;A股宽基（中证A500）近1月回撤约3-5%，波动率约15-18%，风险可控。&lt;/li&gt;
-&lt;li&gt;黄金波动率约12-15%，回撤有限，当前风险较低。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;综合风险&lt;/strong&gt;：美股科技板块风险显著上升，A股及黄金风险中性偏低。建议控制美股敞口不超过总仓位20%，优先配置低波动资产。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr /&gt;
-&lt;p&gt;🔄 &lt;em&gt;由 ETF-Tracker 自动生成 · 2026-07-20 20:36 CST&lt;/em&gt;&lt;/p&gt;</content:encoded>
     </item>
   </channel>
 </rss>
